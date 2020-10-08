@@ -5,7 +5,9 @@ services:
     image: terapi-api
     build: .
     env_file: .env
-    command: bash -c "npm run test"
+    command: >
+      bash -c "npx jest --coverage --verbose
+      --collectCoverage --coverageReporters=html"
     ports:
       - 3000:3000
     volumes:
