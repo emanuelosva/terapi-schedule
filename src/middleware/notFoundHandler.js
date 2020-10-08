@@ -15,7 +15,7 @@ const { httpErrors } = require('../lib/errorManager')
 const notFoundHandler = (req, res) => {
   res.status(httpErrors.notFound).json({
     error: true,
-    detail: 'Not Found',
+    detail: 'Not found',
   })
 }
 
