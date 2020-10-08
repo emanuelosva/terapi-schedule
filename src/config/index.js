@@ -9,7 +9,7 @@ require('dotenv').config()
 module.exports.config = {
   app: {
     host: process.env.HOST || 'localhost',
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || '3000',
     dev: process.env.NODE_ENV !== 'production',
   },
   auth: {
