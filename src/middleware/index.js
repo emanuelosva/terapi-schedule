@@ -4,6 +4,6 @@
  * **************************
  */
 
-module.exports.errorHandler = require('./errorHandler')
-module.exports.notFoundHandler = require('./notFoundHandler')
-module.exports.validationHandler = require('./validationHandler')
+module.exports.errorHandler = require('./errorHandler').errorHandler
+module.exports.notFoundHandler = require('./notFoundHandler').notFoundHandler
+module.exports.validationHandler = require('./validationHandler').validationHandler
