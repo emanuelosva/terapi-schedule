@@ -1,0 +1,35 @@
+name: terapi-shcedule
+on: [push]
+
+jobs:
+  # Pass all tests before push and deploy.
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:4.4
+        ports:
+          - 27017:27017
+    env:
+      DB_URL: mongodb://db:27017/terapischedule
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - run: npm ci
+      - run: npm test
+  deploy:
+    # Deploy on push on master branch
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: test
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - uses: akhileshns/heroku-deploy@v3.4.6
+        name: Deploy to heroku
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
