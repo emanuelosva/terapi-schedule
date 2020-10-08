@@ -6,7 +6,6 @@
 
 require('dotenv').config()
 
-
 module.exports = {
   app: {
     host: process.env.HOST || 'localhost',
