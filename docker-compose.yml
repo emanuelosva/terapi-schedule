@@ -1,0 +1,24 @@
+version: "3"
+services:
+  api:
+    container_name: api
+    image: terapi-api
+    build: .
+    env_file: .env
+    restart: on-failure
+    command: bash -c "npx nodemon src/bin/www"
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: mongo:4.4
+    restart: always
+    volumes:
+      - app-db-data:/data/db
+
+volumes:
+  app-db-data:

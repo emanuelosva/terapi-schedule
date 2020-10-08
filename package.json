@@ -1,0 +1,63 @@
+{
+  "name": "terapify-schedule",
+  "version": "1.0.0",
+  "description": "Terapify Backend Challenge",
+  "private": true,
+  "main": "src/bin/www",
+  "scripts": {
+    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "dev": "docker-compose up",
+    "build:docker": "docker-compose build",
+    "test": "jest --coverage",
+    "test:report": "sensible-browser coverage/index.html",
+    "lint": "standard",
+    "lint:fix": "prettier --write '{*.js,src/**/*.js}' && standard --fix src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emanuelosva/terapi-schedule.git"
+  },
+  "author": "Emanuel Osorio <emanuelosva@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/emanuelosva/terapi-schedule#readme",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-pino-logger": "^5.0.0",
+    "express-swagger-generator": "^1.1.17",
+    "helmet": "^4.1.1",
+    "joi": "^17.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.8",
+    "passport": "^0.4.1",
+    "passport-cookie": "^1.0.8",
+    "pino": "^6.7.0",
+    "pm2": "^4.5.0"
+  },
+  "devDependencies": {
+    "husky": "^4.3.0",
+    "jest": "^26.5.2",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.2",
+    "standard": "^14.3.4",
+    "supertest": "^5.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint:fix"
+    }
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageReporters": [
+      "html"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  }
+}

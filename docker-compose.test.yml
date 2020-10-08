@@ -1,0 +1,18 @@
+version: "3"
+services:
+  api:
+    container_name: api
+    image: terapi-api
+    build: .
+    env_file: .env
+    command: bash -c "npm run test"
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: mongo:4.4
+    restart: always
