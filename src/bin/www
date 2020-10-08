@@ -5,10 +5,11 @@
 var http = require('http')
 var { app } = require('../app')
 var { logger } = require('../lib/logger')
+var { config } = require('../config')
 
 // Get port from environment and store in Express.
 
-var port = normalizePort(process.env.PORT || '3000')
+var port = normalizePort(config.app.port)
 app.set('port', port)
 
 
