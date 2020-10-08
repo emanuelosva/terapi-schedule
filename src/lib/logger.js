@@ -14,7 +14,7 @@ const logger = pino({ level: process.env.LOG_LEVEL || 'info' })
 
 /**
  * Add a logger middleware to log info about request/response
- * @param {express.Application} app 
+ * @param {express.Application} app
  */
 const expressLogger = (app) => {
   app.use(morgan('dev'))

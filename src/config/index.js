@@ -6,7 +6,7 @@
 
 require('dotenv').config()
 
-module.exports = {
+module.exports.config = {
   app: {
     host: process.env.HOST || 'localhost',
     port: process.env.PORT || 3000,

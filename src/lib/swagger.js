@@ -36,12 +36,15 @@ const swaggerConf = {
 }
 
 /**
- * Create a swagger json file based on routes docstrings and create
- * a swagger ui interface in `host/api-docs`
- *
- * @param app - The express server instance
+ * Generates a swagger json file and create
+ * the ui-swagger service on `host/api-docs`
+ * @param {express.Application} app
  */
-module.exports.swaggerServer = (app) => {
+const swaggerServer = (app) => {
   const swaggerService = expressSwagger(app)
   swaggerService(swaggerConf)
+}
+
+module.exports = {
+  swaggerServer,
 }
