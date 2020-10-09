@@ -12,6 +12,7 @@ const db = require('mongoose')
 class CRUD {
   constructor(model) {
     this.model = model
+    this._db = db.connection.db
   }
 
   create({ data }) {
@@ -20,16 +21,20 @@ class CRUD {
 
   read({ query, relation }) {
     const pathPopulate = relation || undefined
-    return this.model.findOne(query).populate(pathPopulate)
+    return this.model.findOne(query)
   }
 
   readMany({ query, relation }) {
     const pathPopulate = relation || undefined
-    return this.model.findMany(query).populate(pathPopulate)
+    return this.model.find(query)
   }
 
-  update({ id, data }) {
-    return this.model.updateOne({ _id: id }, { ...data })
+  update({ query, data }) {
+    return this.model.updateOne(query, data)
+  }
+
+  upsert({ query, data }) {
+    return this.model.updateOne(query, data, { upsert: true })
   }
 
   delete({ id }) {
@@ -45,7 +50,7 @@ class CRUD {
   async getFromEmail(email, scope) {
     try {
       const collectioName = `${scope}s`
-      const dbCollection = db.connection.db.collection(collectioName)
+      const dbCollection = this._db.collection(collectioName)
       return dbCollection.findOne({ email })
     } catch (error) {
       return false
