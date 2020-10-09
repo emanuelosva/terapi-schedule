@@ -15,5 +15,6 @@ module.exports.config = {
   auth: {
     cookiAuthName: process.env.COOKIE_AUTH_NAME || 'TERAPIFY-AUTH-COOKIE',
     secret: process.env.JWT_SECRET || 'secret',
+    algorithm: process.env.JWT_ALGORITHM || 'HS256',
   },
 }

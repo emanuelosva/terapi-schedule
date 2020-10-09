@@ -7,5 +7,5 @@
 // Refers to psychologists permissions
 module.exports.PSY = 'psy'
 
-// Refers to users permissions
-module.exports.USER = 'user'
+// Refers to patients permissions
+module.exports.USER = 'patient'
