@@ -5,6 +5,7 @@
  */
 
 const express = require('express')
+const { connectDb } = require('./lib/db')
 const { expressLogger } = require('./lib/logger')
 const { swaggerServer } = require('./lib/swagger')
 const { notFoundHandler, errorHandler } = require('./middleware')
@@ -13,6 +14,11 @@ const { notFoundHandler, errorHandler } = require('./middleware')
  * APP definition
  */
 const app = express()
+
+/**
+ * Lauch DB
+ */
+connectDb()
 
 /**
  * Logger middleware

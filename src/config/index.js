@@ -17,4 +17,7 @@ module.exports.config = {
     secret: process.env.JWT_SECRET || 'secret',
     algorithm: process.env.JWT_ALGORITHM || 'HS256',
   },
+  db: {
+    uri: process.env.DB_URL,
+  },
 }
