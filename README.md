@@ -192,11 +192,12 @@ body: {
 
 ```json
 {
-  "id": "uuid",
+  "id": "ID",
   "email": "str",
   "firstName": "str",
   "lastName": "str",
-  "cel": "str"
+  "cel": "str",
+  "appoiments": "ID"
 }
 ```
 
@@ -204,7 +205,7 @@ body: {
 
 ```json
 {
-  "id": "uuid",
+  "id": "ID",
   "email": "str",
   "firstName": "str",
   "lastName": "str",
@@ -217,8 +218,8 @@ body: {
 
 ```json
 {
-  "id": "uuid",
-  "psy": "uuid-ref:psy[id]",
+  "id": "ID",
+  "psy": "ID-ref:psy[id]",
   "dayOfWeek": "str",
   "start": "str",
   "end": "str",
@@ -233,11 +234,11 @@ body: {
 
 **Appoiment**
 
-```js
+```json
 {
-  "id": "uuid",
-  "psy": "uuid-ref:psy[id]",
-  "user": "uuid-red:user[id]",
+  "id": "ID",
+  "psy": "ID-ref:psy[id]",
+  "user": "ID-red:user[id]",
   "date": "DateTime",
   "duration": "int",
   "startTime": "DateTime",
