@@ -207,6 +207,7 @@ body: {
 {
   "id": "ID",
   "email": "str",
+  "password": "str",
   "firstName": "str",
   "lastName": "str",
   "cedula": "str",
@@ -238,7 +239,7 @@ body: {
 {
   "id": "ID",
   "psy": "ID-ref:psy[id]",
-  "user": "ID-red:user[id]",
+  "patient": "ID-red:user[id]",
   "date": "DateTime",
   "duration": "int",
   "startTime": "DateTime",
