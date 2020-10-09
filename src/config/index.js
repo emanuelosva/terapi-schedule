@@ -16,6 +16,7 @@ module.exports.config = {
     cookiAuthName: process.env.COOKIE_AUTH_NAME || 'TERAPIFY-AUTH-COOKIE',
     secret: process.env.JWT_SECRET || 'secret',
     algorithm: process.env.JWT_ALGORITHM || 'HS256',
+    saltFactor: process.env.SALT_FACTOR || 10,
   },
   db: {
     uri: process.env.DB_URL,
