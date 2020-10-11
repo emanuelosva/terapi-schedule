@@ -4,7 +4,7 @@
  * **************************************
  */
 
-const db = require('mongoose')
+const mongoose = require('mongoose')
 
 /**
  * A general DB access to perform basic crud operations
@@ -12,20 +12,18 @@ const db = require('mongoose')
 class CRUD {
   constructor(model) {
     this.model = model
-    this._db = db.connection.db
+    this._db = mongoose.connection.db
   }
 
   create({ data }) {
     return this.model.create(data)
   }
 
-  read({ query, relation }) {
-    const pathPopulate = relation || undefined
+  read({ query }) {
     return this.model.findOne(query)
   }
 
-  readMany({ query, relation }) {
-    const pathPopulate = relation || undefined
+  readMany({ query }) {
     return this.model.find(query)
   }
 

@@ -8,4 +8,4 @@
 module.exports.PSY = 'psy'
 
 // Refers to patients permissions
-module.exports.USER = 'patient'
+module.exports.PATIENT = 'patient'

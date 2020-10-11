@@ -11,9 +11,9 @@ const { CRUD } = require('../../lib/db')
  * Data Access Layer for Psy model
  */
 class PsyDb extends CRUD {
-  constructor(PsyModel) { }
+  constructor(PsyModel) {}
 }
 
 module.exports = {
-  psyDb: new PsyDb()
+  psyDb: new PsyDb(),
 }

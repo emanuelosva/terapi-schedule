@@ -5,7 +5,6 @@
  */
 
 const jwt = require('jsonwebtoken')
-const { ApiError, httpErrors } = require('../errorManager')
 const { config } = require('../../config')
 
 /**

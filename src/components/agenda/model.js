@@ -32,16 +32,18 @@ const DaySchema = mongoose.Schema({
   psy: {
     type: String,
     required: true,
-    ref: 'Psy'
+    ref: 'Psy',
   },
   dayOfWeek: stringRequired,
   start: stringRequired,
   end: stringRequired,
-  breaks: [{
-    start: String,
-    end: String,
-  }],
-  hoursOnService: [String]
+  breaks: [
+    {
+      start: String,
+      end: String,
+    },
+  ],
+  hoursOnService: [String],
 })
 
 /**
@@ -55,12 +57,12 @@ const AppoimentSchema = new mongoose.Schema({
   psy: {
     type: String,
     required: true,
-    ref: 'Psy'
+    ref: 'Psy',
   },
   patient: {
     type: String,
     required: true,
-    ref: 'Patient'
+    ref: 'Patient',
   },
   date: dateRequired,
   startTime: dateRequired,
@@ -71,7 +73,6 @@ const AppoimentSchema = new mongoose.Schema({
   },
   hoursTaked: [String],
 })
-
 
 /**
  * Populate the patient and psy info.
@@ -86,7 +87,11 @@ AppoimentSchema.pre('find', autoPopulate)
 AppoimentSchema.pre('findOne', autoPopulate)
 
 const DayModel = mongoose.model('Day', DaySchema, 'days')
-const AppoimentModel = mongoose.model('Appoiment', AppoimentSchema, 'appoiments')
+const AppoimentModel = mongoose.model(
+  'Appoiment',
+  AppoimentSchema,
+  'appoiments'
+)
 
 module.exports = {
   DayModel,

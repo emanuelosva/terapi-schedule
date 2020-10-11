@@ -8,11 +8,11 @@ const { AppoimentModel, DayModel } = require('./model')
 const { CRUD } = require('../../lib/db')
 
 class DayDb extends CRUD {
-  constructor(DayModel) { }
+  constructor(DayModel) {}
 }
 
 class AppoimentDb extends CRUD {
-  constructor(AppoimentModel) { }
+  constructor(AppoimentModel) {}
 }
 
 /**
