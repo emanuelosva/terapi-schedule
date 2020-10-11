@@ -1,7 +1,12 @@
 /**
- * ***********************************
+ * ***************************************
  * @fileoverview Cookie auth strategy.
- * ***********************************
+ *
+ * @description Get token from request and
+ * verify if is valid. If true, the token
+ * id used to retrieve the current user
+ * info.
+ * ***************************************
  */
 
 const passport = require('passport')
