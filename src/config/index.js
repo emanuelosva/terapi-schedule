@@ -14,6 +14,7 @@ module.exports.config = {
   },
   auth: {
     cookiAuthName: process.env.COOKIE_AUTH_NAME || 'TERAPIFY-AUTH-COOKIE',
+    cookieAge: 1000 * 60 * 60 * 24 * 365, // One Year
     secret: process.env.JWT_SECRET || 'secret',
     algorithm: process.env.JWT_ALGORITHM || 'HS256',
     saltFactor: process.env.SALT_FACTOR || 10,
