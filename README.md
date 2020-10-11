@@ -1,6 +1,6 @@
 # [Terapify](https://www.terapify.com) Backend Challenge (Terapi-schedule)
 
-Develop a REST API that allows to users know the available psychologists hours and create/schedule an appoiment in some of these ensuring that the space is available.
+Develop a REST API that allows to users know the available psychologists hours and create/schedule an appoiment in some of these, ensuring that the space is available.
 
 ## Tech Stack
 
@@ -15,7 +15,7 @@ Develop a REST API that allows to users know the available psychologists hours a
 - RESTFul API
 - Request validation (Joi)
 - SwaggerDocs (swaggger-generator)
-- Scope validation (roles: user & psy)
+- Scope validation (roles: patient & psy)
 - Docker based
 - Github Actions for CI
 - Automatic deploy after test on PaaS (Heroku)
@@ -29,8 +29,8 @@ The API is completely documented.
 - If you run the project in local, you can interact with the swagger docs in:
   - http://localhost:3000/api-docs
 
-- Also you can visit the interactice docs of deployed version in:
-  - https://terapi-schedule.vercel.app/api-docs
+- Also you can visit the interactive docs of deployed version in:
+  - https://terapi-schedule.herokuapp.com/api-docs
 
 ## Usage
 
@@ -41,7 +41,11 @@ git clone https://github.com/emanuelosva/terapi-schedule
 ```
 
 - Then build the docker image.
-This create the container enviroment and install dependencies
+First go to the .env.example file and rename as .env and fill the
+required config vars.
+The mongo DB_URL by default use: `mongodb://db:27017/terapischedule`
+
+Run the following command to build the Docker image.
 
 ```bash
 npm run build:docker
@@ -58,10 +62,10 @@ npm run dev
 **Server:** http:/localhost:3000
 **Prefix route:** /api
 
-#### Operations about users
+#### Operations about patients
 
-- POST /users
-> Create a new user and set a cookie session
+- POST /patients
+> Create a new patient and set a cookie session
 
 ```js
 body: {
@@ -72,8 +76,8 @@ body: {
 
 ```
 
-- GET /users
-> Return current user info and appoiments.
+- GET /patients
+> Return current patient info and appoiments.
 
 
 #### Operations about psychologist
@@ -158,7 +162,7 @@ body: {
 - POST /agenda/appoiment
 > Create a new appoiment.
 
-:scope: `user`
+:scope: `patient`
 
 ```js
   - body: {
@@ -171,7 +175,7 @@ body: {
 ```
 
 - POST /agenda/appoiment/new
-> Create a new appoiment and register the user.
+> Create a new appoiment and register the patient.
 
 ```js
   - body: {
@@ -188,7 +192,7 @@ body: {
 
 ## DB Schemas
 
-**User**
+**Patient**
 
 ```json
 {
@@ -197,7 +201,6 @@ body: {
   "firstName": "str",
   "lastName": "str",
   "cel": "str",
-  "appoiments": "ID"
 }
 ```
 
@@ -239,7 +242,7 @@ body: {
 {
   "id": "ID",
   "psy": "ID-ref:psy[id]",
-  "patient": "ID-red:user[id]",
+  "patient": "ID-ref:patient[id]",
   "date": "DateTime",
   "duration": "int",
   "startTime": "DateTime",
@@ -250,7 +253,7 @@ body: {
 ## About the project
 
 This project take part of [Terapify](https://www.terapify.com) Backend Challenge.
-The correct appoiments scheduling is crucial to ensure a great services to users and psychologists. This application is a my personal solution to cover this service.
+The correct appoiments scheduling is crucial to ensure a great services to patients and psychologists. This application is my personal solution to cover this service.
 
 ## Author
 
