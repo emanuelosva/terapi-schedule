@@ -24,9 +24,11 @@ const connectDb = () => {
       useNewUrlParser: true,
     }).then(() => {
       logger.info('DB connected')
+    }).catch((error) => {
+      throw new ApiError(error.message, httpErrors.serverError)
     })
   } catch (error) {
-    throw new ApiError('Server Error', httpErrors.serverError)
+    throw new ApiError(error.message, httpErrors.serverError)
   }
 }
 
