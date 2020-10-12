@@ -5,9 +5,10 @@
  */
 
 const mongoose = require('mongoose')
-const nanoid = require('nanoid')
 const bcrypt = require('bcrypt')
+const { nanoid } = require('nanoid')
 const { config } = require('../../config')
+const { raiseError, httpErrors } = require('../../lib/errorManager')
 
 /**
  * Required String Type (DRY)
@@ -25,18 +26,35 @@ const PsySchema = mongoose.Schema({
     type: String,
     default: () => nanoid(),
   },
-  email: stringRequired,
+  email: { ...stringRequired, unique: true },
   password: stringRequired,
   firstName: stringRequired,
   lastName: stringRequired,
-  cedule: stringRequired,
+  cedula: stringRequired,
   description: stringRequired,
+})
+
+/**
+ * Email is unique
+ */
+PsySchema.pre('save', async function (next) {
+  try {
+    const db = mongoose.connection.db
+    const existingEmail = await db
+      .collection('psys')
+      .findOne({ email: this.email })
+
+    if (!existingEmail) return next()
+    return raiseError('Email already exists', httpErrors.conflict)
+  } catch (error) {
+    next(error)
+  }
 })
 
 /**
  * Hash password before save on db.
  */
-PsySchema.pre('save', async (next) => {
+PsySchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next()
   try {
     this.password = await bcrypt.hash(this.password, config.auth.saltFactor)

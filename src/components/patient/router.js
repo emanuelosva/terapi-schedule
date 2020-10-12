@@ -7,7 +7,7 @@
 const { Router } = require('express')
 const passport = require('passport')
 const { validationHandler } = require('../../middleware')
-const { jwt, scopes } = require('../../lib/auth')
+const { jwt, scopes, setResponseCookie } = require('../../lib/auth')
 const { config } = require('../../config')
 const { patientInSchema, patientLoginSchema } = require('./schema')
 const { patientController } = require('./controller')
@@ -41,12 +41,8 @@ router.post(
         scope: scopes.PATIENT,
       })
 
-      res.cookie(config.auth.cookiAuthName, token, {
-        httpOnly: !config.app.dev,
-        secure: !config.app.dev,
-        maxAge: config.auth.cookieAge,
-      })
-
+      // Add cookie session to response
+      setResponseCookie({ res, token })
       res.status(201).json(patient)
     } catch (error) {
       next(error)
@@ -76,12 +72,8 @@ router.post(
         scope: scopes.PATIENT,
       })
 
-      res.cookie(config.auth.cookiAuthName, token, {
-        httpOnly: !config.app.dev,
-        secure: !config.app.dev,
-        maxAge: config.auth.cookieAge,
-      })
-
+      // Add cookie session to response
+      setResponseCookie({ res, token })
       res.status(200).json(patient)
     } catch (error) {
       next(error)
