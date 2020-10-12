@@ -8,6 +8,17 @@ const expressSwagger = require('express-swagger-generator')
 const { config } = require('../config')
 
 /**
+ * Return the current swagger host.
+ */
+const getSwaggerHost = () => {
+  let host
+  config.app.dev
+    ? host = `${config.app.host}:${config.app.port}`
+    : host = config.app.host
+  return host
+}
+
+/**
  * General swagger settings
  */
 const swaggerConf = {
@@ -17,7 +28,7 @@ const swaggerConf = {
       version: '1.0.0',
       description: 'REST API to handle Terapify agenda.',
     },
-    host: `${config.app.host}:${config.app.port}`,
+    host: getSwaggerHost(),
     basePath: '/api',
     produces: ['application/json'],
     schemes: ['http', 'https'],
