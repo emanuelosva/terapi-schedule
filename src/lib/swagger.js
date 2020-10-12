@@ -31,7 +31,7 @@ const swaggerConf = {
     host: getSwaggerHost(),
     basePath: '/api',
     produces: ['application/json'],
-    schemes: ['http', 'https'],
+    schemes: config.app.dev ? ['http'] : ['https'],
     securityDefinitions: {
       COOKIE: {
         type: 'apiKey',
