@@ -13,7 +13,7 @@ const { config } = require('../../config')
  * @param {string} payload.email - The email of user.
  * @param {string} payload.scope - The user scope.
  */
-module.exports.signToken = ({ email, scope }) => {
+const signToken = ({ email, scope }) => {
   return jwt.sign({ email, scope }, config.auth.secret, {
     algorithm: config.auth.algorithm,
   })
@@ -23,8 +23,13 @@ module.exports.signToken = ({ email, scope }) => {
  * Verify if the token is valid and return the decoded payload.
  * @param {string} token - The encoded token.
  */
-module.exports.verifyAndDecodeToken = (token) => {
+const verifyAndDecodeToken = (token) => {
   return jwt.verify(token, config.auth.secret, {
     algorithms: [config.auth.algorithm],
   })
+}
+
+module.exports = {
+  signToken,
+  verifyAndDecodeToken,
 }

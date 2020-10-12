@@ -4,8 +4,10 @@
  * ***********************************
  */
 
-// Refers to psychologists permissions
-module.exports.PSY = 'psy'
+module.exports = {
+  // Refers to psychologists permissions
+  PSY: 'psy',
 
-// Refers to patients permissions
-module.exports.PATIENT = 'patient'
+  // Refers to patients permissions
+  PATIENT: 'patient',
+}
