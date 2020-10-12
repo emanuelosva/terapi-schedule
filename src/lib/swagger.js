@@ -13,8 +13,8 @@ const { config } = require('../config')
 const getSwaggerHost = () => {
   let host
   config.app.dev
-    ? host = `${config.app.host}:${config.app.port}`
-    : host = config.app.host
+    ? (host = `${config.app.host}:${config.app.port}`)
+    : (host = config.app.host)
   return host
 }
 
