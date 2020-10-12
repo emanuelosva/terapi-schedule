@@ -5,6 +5,11 @@
  */
 
 /**
+ * @typedef Success
+ * @property {string} detail.required - Operation message - eg: Operation successful
+ */
+
+/**
  * @typedef BadRequest
  * @property {boolean} error.required - Error on requets - eg: true
  * @property {string} detail.required - Error - eg: Invalid request info
@@ -31,7 +36,7 @@
 /**
  * @typedef Conflict
  * @property {boolean} error.required - Error on requets - eg: true
- * @property {string} detail.required - Detail - eg: Conflict with preexist data
+ * @property {string} detail.required - Detail - eg: Conflict with preexisting data
  */
 
 /**

@@ -88,6 +88,7 @@ router.post(
  * @group Patients - Operations about patients
  * @returns {Patient.model} 200 - Patient created and logged
  * @returns {Unauthorized.model} 401 - Invalid credentials.
+ * @security COOKIE
  */
 router.get(
   '/',
