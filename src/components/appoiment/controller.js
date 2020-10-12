@@ -17,7 +17,7 @@ class AgendaController {
     try {
       const psyId = psy._id
       const agendaPromises = days.map((day) => {
-        return agendaDb.upsert({
+        return agendaDb.day.upsert({
           query: { psy: psyId, dayOfWeek: day.dayOfWeek },
           data: { ...day, psy: psyId },
         })
@@ -31,7 +31,7 @@ class AgendaController {
 
   async read({ psy, dayOfWeek }) {
     try {
-      const agenda = await agendaDb.readMany({ query: { psy: psy._id } })
+      const agenda = await agendaDb.day.readMany({ query: { psy: psy._id } })
       if (dayOfWeek) return agenda.filter((day) => day.dayOfWeek === dayOfWeek)
       return agenda
     } catch (error) {
@@ -41,7 +41,7 @@ class AgendaController {
 
   async update({ psy, dayData }) {
     try {
-      await agendaDb.update({
+      await agendaDb.day.update({
         query: { psy: psy._id, dayOfWeek: dayData.dayOfWeek },
         data: { ...dayData },
       })
@@ -53,7 +53,7 @@ class AgendaController {
 
   async delete({ psy, dayOfWeek }) {
     try {
-      await agendaDb.delete({ query: { psy: psy._id, dayOfWeek } })
+      await agendaDb.day.delete({ query: { psy: psy._id, dayOfWeek } })
       return { detail: 'Day reseted' }
     } catch (error) {
       return raiseError(error.message)

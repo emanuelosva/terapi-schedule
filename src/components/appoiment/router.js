@@ -8,13 +8,19 @@ const { Router } = require('express')
 const { validationHandler } = require('../../middleware')
 const { scopes, cookieAuthenticate } = require('../../lib/auth')
 const { agendaController } = require('./controller')
-const { dayInSchema, agendaInSchema, dayOfWeekSchema } = require('./schema')
+const {
+  dayInSchema,
+  agendaInSchema,
+  dayOfWeekSchema,
+  appoimentConsultSchema,
+  appoimentInSchema,
+  appoimentNewPatientInSchema,
+} = require('./schema')
 
 /**
  * Router instance
  */
 const router = Router()
-router.use(cookieAuthenticate({ scopes: [scopes.PSY] }))
 
 /**
  * Create psy agenda
@@ -29,6 +35,7 @@ router.use(cookieAuthenticate({ scopes: [scopes.PSY] }))
  */
 router.post(
   '/',
+  cookieAuthenticate({ scopes: [scopes.PSY] }),
   validationHandler(agendaInSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -54,6 +61,7 @@ router.post(
  */
 router.get(
   '/',
+  cookieAuthenticate({ scopes: [scopes.PSY] }),
   validationHandler(dayOfWeekSchema, 'query'),
   async (req, res, next) => {
     try {
@@ -80,6 +88,7 @@ router.get(
  */
 router.put(
   '/',
+  cookieAuthenticate({ scopes: [scopes.PSY] }),
   validationHandler(dayInSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -106,6 +115,7 @@ router.put(
  */
 router.delete(
   '/:dayOfWeek',
+  cookieAuthenticate({ scopes: [scopes.PSY] }),
   validationHandler(dayOfWeekSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -113,6 +123,79 @@ router.delete(
       const { dayOfWeek } = req.params
       const result = await agendaController.delete({ psy, dayOfWeek })
       res.status(200).json(result)
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
+/**
+ * Get available appoiment hours
+ * @route GET /agenda/appoiments
+ * @group Agenda - Operations about agenda
+ * @param {string} psy.query.required - The psy id - eg: 3aCcGQSb5WTDmkofmd-UG
+ * @param {string} duration.query.required - Appoiment duration - eg: 50
+ * @param {string} selectedDay.query.required - Desired day - eg: 2020/12/20
+ * @returns {Array<string>} 200 - Availbale hours - eg: [14:00, 15:00]
+ * @returns {BadRequest.model} 400 - Invalid request data.
+ */
+router.get(
+  '/appoiments',
+  validationHandler(appoimentConsultSchema, 'query'),
+  async (req, res, next) => {
+    try {
+      const { psy, duration, selectedDay } = req.query
+      const hours = await agendaController.getHours({
+        psy,
+        duration,
+        selectedDay,
+      })
+      res.status(200).json({ hours })
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
+/**
+ * Create new appoiment
+ * @route POST /agenda/appoiments
+ * @group Agenda - Operations about agenda
+ * @param {AppoimentIn.model} appoiment.body.required - The appoiment data
+ * @returns {Appoiment.model} 201 - Appoiment info.
+ * @returns {BadRequest.model} 400 - Invalid request data.
+ * @returns {Conflict.model} 409 - Date not available.
+ */
+router.post(
+  '/appoiments',
+  validationHandler(appoimentInSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const appoimentData = req.body
+      const appoiment = await agendaController.addAppoimnet({ appoimentData })
+      res.status(201).json(appoiment)
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
+/**
+ * Create new appoiment and new user
+ * @route POST /agenda/appoiments/new
+ * @group Agenda - Operations about agenda
+ * @param {AppoimentNewPatinetIn.model} appoiment.body.required - The appoiment data
+ * @returns {Appoiment.model} 200 - Appoiment info.
+ * @returns {BadRequest.model} 400 - Invalid request data.
+ * @returns {Conflict.model} 409 - Date not available.
+ */
+router.post(
+  '/appoiments/new',
+  validationHandler(appoimentNewPatientInSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const appoimentData = req.body
+      res.status(201).json(appoimentData)
     } catch (error) {
       next(error)
     }
