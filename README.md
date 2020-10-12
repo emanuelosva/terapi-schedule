@@ -80,7 +80,7 @@ body: {
 > Return current patient info and appoiments.
 
 
-#### Operations about psychologist
+#### Operations about psychologists
 
 - POST /psy/signup
 > Register a new psychologyst.
@@ -145,18 +145,18 @@ body: {
 :scope: `psy`
 
 ```js
-  - body:{
-      workingPlan: {
-        start: "09:00",
-        end: "18:00",
-      },
-      breaks: [
-        {
-          start: "14:00",
-          end: "15:30",
-        }
-      ]
+body:{
+  workingPlan: {
+    start: "09:00",
+    end: "18:00",
+  },
+  breaks: [
+    {
+      start: "14:00",
+      end: "15:30",
     }
+  ]
+}
 ```
 
 - POST /agenda/appoiment
@@ -165,29 +165,28 @@ body: {
 :scope: `patient`
 
 ```js
-  - body: {
-      start_time: "2020-07-10T13:00:03-05:00",
-      end_time: "2020-07-10T13:50:03-05:00",
-      duration: 50,
-      psy: ID,
-      pattient: ID,
-  }
+body: {
+  start_time: "2020-07-10T13:00:03-05:00",
+  end_time: "2020-07-10T13:50:03-05:00",
+  duration: 50,
+  psy: ID,
+  pattient: ID,
+}
 ```
 
 - POST /agenda/appoiment/new
 > Create a new appoiment and register the patient.
 
 ```js
-  - body: {
-      start_time: "2020-07-10T13:00:03-05:00",
-      end_time: "2020-07-10T13:50:03-05:00",
-      duration: 50,
-      psy: ID,
-      pattientName: "Stan Lee",
-      pattientEmail: "stan@marvel.com",
-      pattientCel: "+5255468932",
-
-  }
+body: {
+  start_time: "2020-07-10T13:00:03-05:00",
+  end_time: "2020-07-10T13:50:03-05:00",
+  duration: 50,
+  psy: ID,
+  pattientName: "Stan Lee",
+  pattientEmail: "stan@marvel.com",
+  pattientCel: "+5255468932",
+}
 ```
 
 ## DB Schemas
