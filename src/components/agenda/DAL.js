@@ -8,21 +8,20 @@ const { AppoimentModel, DayModel } = require('./model')
 const { CRUD } = require('../../lib/db')
 
 class DayDb extends CRUD {
-  constructor(DayModel) {}
+  constructor() {
+    super(DayModel)
+  }
 }
 
 class AppoimentDb extends CRUD {
-  constructor(AppoimentModel) {}
-}
-
-/**
- * Data Access Layer for Agenda
- */
-const agendaDb = {
-  day: new DayDb(),
-  appoiment: new AppoimentDb(),
+  constructor() {
+    super(AppoimentModel)
+  }
 }
 
 module.exports = {
-  agendaDb,
+  agendaDb: {
+    day: new DayDb(),
+    appoiment: new AppoimentDb(),
+  },
 }

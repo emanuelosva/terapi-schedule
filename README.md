@@ -139,13 +139,14 @@ body: {
 
 :scope: `psy`
 
-- PUT /agenda/{dayOfWeek}
+- PUT /agenda
 > Update agenda for some day.
 
 :scope: `psy`
 
 ```js
 body:{
+  dayOfWeek: "Monday",
   workingPlan: {
     start: "09:00",
     end: "18:00",
@@ -159,7 +160,24 @@ body:{
 }
 ```
 
-- POST /agenda/appoiment
+- DELETE /agenda/{dayOfWeek}
+> Reset agenda for some day.
+
+:scope: `psy`
+
+
+- GET /agenda/appoiments
+> Retrieve the available hours
+
+```js
+query: {
+  selectedDay: "22/12/2020",
+  psy: ID,
+  duration: 50,
+}
+```
+
+- POST /agenda/appoiments
 > Create a new appoiment.
 
 :scope: `patient`
@@ -183,9 +201,11 @@ body: {
   end_time: "2020-07-10T13:50:03-05:00",
   duration: 50,
   psy: ID,
-  pattientName: "Stan Lee",
-  pattientEmail: "stan@marvel.com",
-  pattientCel: "+5255468932",
+  patient: {
+    pattientName: "Stan Lee",
+    pattientEmail: "stan@marvel.com",
+    pattientCel: "+5255468932"
+  }
 }
 ```
 

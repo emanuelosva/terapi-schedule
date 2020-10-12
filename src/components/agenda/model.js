@@ -4,7 +4,6 @@
  * *******************************
  */
 
-const { number } = require('joi')
 const mongoose = require('mongoose')
 const { nanoid } = require('nanoid')
 
@@ -29,21 +28,18 @@ const DaySchema = mongoose.Schema({
     type: String,
     default: () => nanoid(),
   },
-  psy: {
-    type: String,
-    required: true,
-    ref: 'Psy',
-  },
+  psy: { ...stringRequired, ref: 'Psy' },
   dayOfWeek: stringRequired,
-  start: stringRequired,
-  end: stringRequired,
+  workingPlan: {
+    start: stringRequired,
+    end: stringRequired,
+  },
   breaks: [
     {
       start: String,
       end: String,
     },
   ],
-  hoursOnService: [String],
 })
 
 /**
@@ -54,23 +50,12 @@ const AppoimentSchema = new mongoose.Schema({
     type: String,
     default: () => nanoid(),
   },
-  psy: {
-    type: String,
-    required: true,
-    ref: 'Psy',
-  },
-  patient: {
-    type: String,
-    required: true,
-    ref: 'Patient',
-  },
+  psy: { ...stringRequired, ref: 'Psy' },
+  patient: { ...stringRequired, ref: 'Patient' },
   date: dateRequired,
   startTime: dateRequired,
   endTime: dateRequired,
-  duration: {
-    type: number,
-    required: true,
-  },
+  duration: { type: Number, required: true },
   hoursTaked: [String],
 })
 
@@ -82,11 +67,11 @@ function autoPopulate(next) {
   this.populate({ path: 'patient', select: 'firstName lastName -_id' })
   next()
 }
-
 AppoimentSchema.pre('find', autoPopulate)
 AppoimentSchema.pre('findOne', autoPopulate)
 
 const DayModel = mongoose.model('Day', DaySchema, 'days')
+
 const AppoimentModel = mongoose.model(
   'Appoiment',
   AppoimentSchema,
