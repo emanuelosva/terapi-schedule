@@ -35,8 +35,8 @@ class CRUD {
     return this.model.updateOne(query, data, { upsert: true })
   }
 
-  delete({ id }) {
-    return this.model.deleteOne({ _id: id })
+  delete({ query }) {
+    return this.model.deleteOne(query)
   }
 
   /**
