@@ -42,7 +42,7 @@ class ApiError extends Error {
  */
 const raiseError = (
   message = 'Server error',
-  status = httpErrors.serverError,
+  status = httpErrors.serverError
 ) => {
   return Promise.reject(new ApiError(message, status))
 }
