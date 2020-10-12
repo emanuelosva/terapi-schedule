@@ -5,7 +5,8 @@
  */
 
 const mongoose = require('mongoose')
-const nanoid = require('nanoid')
+const { nanoid } = require('nanoid')
+const { ApiError, httpErrors } = require('../../lib/errorManager')
 
 /**
  * Required String Type (DRY)
@@ -23,13 +24,30 @@ const PatientSchema = mongoose.Schema({
     type: String,
     default: () => nanoid(),
   },
-  email: stringRequired,
+  email: { ...stringRequired, required: true },
   firstName: stringRequired,
-  lastName: stringRequired,
+  lastName: String,
   cel: stringRequired,
-  zoomId: {
-    type: String,
-    required: false,
+  zoomId: String,
+})
+
+/**
+ * Validate email is unique
+ */
+PatientSchema.pre('save', async function (next) {
+  try {
+    const db = mongoose.connection.db
+    const existingEmail = await db
+      .collection('patients')
+      .findOne({ email: this.email })
+
+    if (!existingEmail) return next()
+
+    return Promise.reject(
+      new ApiError('Email already exists', httpErrors.conflict)
+    )
+  } catch (error) {
+    next(error)
   }
 })
 
