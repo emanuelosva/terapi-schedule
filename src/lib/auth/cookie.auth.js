@@ -4,39 +4,49 @@
  *
  * @description Get token from request and
  * verify if is valid. If true, the token
- * id used to retrieve the current user
+ * is used to retrieve the current user
  * info.
  * ***************************************
  */
 
-const passport = require('passport')
-const CookieStrategy = require('passport-cookie')
 const { verifyAndDecodeToken } = require('./jwt')
 const { ApiError, httpErrors } = require('../errorManager')
 const { CRUD } = require('../db')
 const { config } = require('../../config')
 
-passport.use(
-  new CookieStrategy(
-    {
-      cookieName: config.auth.cookiAuthName,
-      signed: false,
-    },
-    async (token, done) => {
-      const authError = new ApiError(
-        'Invalid credentials',
-        httpErrors.unauthorized
-      )
-      const db = new CRUD()
-      try {
-        const { email, scope } = verifyAndDecodeToken(token)
-        if (!email || !scope) return done(authError)
-        const user = await db.getUser({ query: { email }, scope })
-        if (!user) return done(authError)
-        return done(null, user)
-      } catch (error) {
-        return done(authError)
+const unauthorizedError = () => {
+  return new ApiError('Invalid credentials', httpErrors.unauthorized)
+}
+
+/**
+ * Cookie authentication strategy.
+ * @param {array} scopes - The permited scopes access
+ */
+const cookieAuthenticate = ({ scopes }) => {
+  return async (req, res, next) => {
+    const cookieAuthToken = req.cookies[config.auth.cookiAuthName]
+    if (!cookieAuthToken) return next(unauthorizedError())
+
+    try {
+      const { email, scope } = verifyAndDecodeToken(cookieAuthToken)
+
+      if (!scopes.includes(scope)) {
+        return next(new ApiError('Forbidden', httpErrors.forbidden))
       }
+
+      const db = new CRUD()
+      const user = await db.getUser({ query: { email }, scope })
+      if (!user) return next(unauthorizedError())
+
+      req.user = user
+      return next()
+    } catch (error) {
+      req.user = null
+      return next(unauthorizedError())
     }
-  )
-)
+  }
+}
+
+module.exports = {
+  cookieAuthenticate,
+}
