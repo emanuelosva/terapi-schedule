@@ -35,7 +35,20 @@ class ApiError extends Error {
   }
 }
 
+/**
+ * Helper to return trhow a new ApiError class.
+ * @param {string} message - Error message
+ * @param {string} status - HTTP status error
+ */
+const raiseError = (
+  message = 'Server error',
+  status = httpErrors.serverError,
+) => {
+  return Promise.reject(new ApiError(message, status))
+}
+
 module.exports = {
   httpErrors,
   ApiError,
+  raiseError,
 }

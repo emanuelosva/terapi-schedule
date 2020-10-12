@@ -45,11 +45,20 @@ class CRUD {
    * @param {string} email - The user email.
    * @param {string} scope - The user scope [psy, patient]
    */
-  async getFromEmail(email, scope) {
+  async getUser({ query, scope }) {
     try {
       const collectioName = `${scope}s`
       const dbCollection = this._db.collection(collectioName)
-      return dbCollection.findOne({ email })
+      return dbCollection
+        .aggregate()
+        .match(query)
+        .lookup({
+          from: 'appoiments',
+          localField: scope, // patient || psy
+          foreignField: '_id',
+          as: 'appoiments',
+        })
+        .next()
     } catch (error) {
       return false
     }

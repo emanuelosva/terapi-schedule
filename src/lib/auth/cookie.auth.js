@@ -31,7 +31,7 @@ passport.use(
       try {
         const { email, scope } = verifyAndDecodeToken(token)
         if (!email || !scope) return done(authError)
-        const user = await db.getFromEmail(email, scope)
+        const user = await db.getUser({ query: { email }, scope })
         if (!user) return done(authError)
         return done(null, user)
       } catch (error) {
