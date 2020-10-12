@@ -5,15 +5,16 @@
  */
 
 const { Router } = require('express')
-const passport = require('passport')
 const { validationHandler } = require('../../middleware')
-const { jwt, scopes, setResponseCookie } = require('../../lib/auth')
 const { config } = require('../../config')
+const {
+  jwt,
+  scopes,
+  setResponseCookie,
+  cookieAuthenticate,
+} = require('../../lib/auth')
 const { patientInSchema, patientLoginSchema } = require('./schema')
 const { patientController } = require('./controller')
-
-// Get the defined authentication strategy.
-require('../../lib/auth/cookie.auth')
 
 /**
  * Router instance
@@ -90,7 +91,7 @@ router.post(
  */
 router.get(
   '/',
-  passport.authenticate('cookie', { session: false }),
+  cookieAuthenticate({ scopes: [scopes.PATIENT] }),
   async (req, res, next) => {
     try {
       const { user } = req

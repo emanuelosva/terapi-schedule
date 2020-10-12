@@ -7,7 +7,6 @@
 const { Router } = require('express')
 const { validationHandler } = require('../../middleware')
 const { jwt, scopes, setResponseCookie } = require('../../lib/auth')
-const { config } = require('../../config')
 const { psyInSchema, psyLoginSchema } = require('./schema')
 const { psyController } = require('./controller')
 
