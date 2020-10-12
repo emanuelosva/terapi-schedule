@@ -5,6 +5,9 @@
  */
 
 const { nanoid } = require('nanoid')
+const { promisify } = require('util')
+
+module.exports.sleep = promisify(setTimeout)
 
 module.exports.patientMock = {
   email: `${nanoid()}@mail.com`,

@@ -5,8 +5,14 @@
  */
 
 const supertest = require('supertest')
-const { patientMock } = require('./__mocks__')
+const { patientMock, sleep } = require('./__mocks__')
 const { app } = require('../src/app')
+
+beforeAll(async () => {
+  // Wait to db connection.
+  jest.setTimeout(10000)
+  await sleep(10000)
+})
 
 describe('Patients endpoints', () => {
   const request = supertest(app)
