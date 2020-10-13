@@ -48,6 +48,7 @@ router.post(
  * @group Agenda - Operations about agenda
  * @param {string} dayOfWeek.query - The specific day to retrieve
  * @returns {Agenda.model} 200 - Weekly working plan
+ * @returns {BadRequest.model} 400 - Invalid request query
  * @returns {Unauthorized.model} 401 - Invalid credentials
  * @returns {Forbidden.model} 403 - Forbidden.
  * @security COOKIE
@@ -60,7 +61,7 @@ router.get(
       const psy = req.user
       const { dayOfWeek } = req.query
       const agenda = await agendaController.read({ psy, dayOfWeek })
-      res.status(200).json(agenda)
+      res.status(200).json({ agenda })
     } catch (error) {
       next(error)
     }

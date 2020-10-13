@@ -10,7 +10,7 @@ const joi = require('joi')
 
 /**
  * @typedef Agenda
- * @property {Array<Day>} daysInServices.required - Days defined
+ * @property {Array<Day>} agenda.required - Days defined
  */
 
 /**
