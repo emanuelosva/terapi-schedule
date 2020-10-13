@@ -24,3 +24,29 @@ module.exports.psyMock = {
   cedula: '1234567',
   description: 'Some description for test functionalities...'
 }
+
+module.exports.agendaMock = {
+  days: [
+    {
+      "dayOfWeek": "Monday",
+      "workingPlan": {
+        "start": "10:00",
+        "end": "18:00"
+      },
+      "breaks": []
+    },
+    {
+      "dayOfWeek": "Friday",
+      "workingPlan": {
+        "start": "12:00",
+        "end": "18:00"
+      },
+      "breaks": [
+        {
+          start: '15:00',
+          end: '16:00'
+        }
+      ]
+    }
+  ]
+}
