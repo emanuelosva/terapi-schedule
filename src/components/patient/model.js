@@ -5,7 +5,9 @@
  */
 
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 const { nanoid } = require('nanoid')
+const { config } = require('../../config')
 const { ApiError, httpErrors } = require('../../lib/errorManager')
 
 /**
@@ -25,6 +27,7 @@ const PatientSchema = mongoose.Schema({
     default: () => nanoid(),
   },
   email: { ...stringRequired, required: true },
+  password: stringRequired,
   firstName: stringRequired,
   lastName: String,
   cel: stringRequired,
@@ -48,6 +51,19 @@ PatientSchema.pre('save', async function (next) {
     )
   } catch (error) {
     next(error)
+  }
+})
+
+/**
+ * Hash password before save on db.
+ */
+PatientSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next()
+  try {
+    this.password = await bcrypt.hash(this.password, config.auth.saltFactor)
+    return next()
+  } catch (error) {
+    return next(error)
   }
 })
 

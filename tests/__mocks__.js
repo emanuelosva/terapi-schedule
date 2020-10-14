@@ -11,6 +11,7 @@ module.exports.sleep = promisify(setTimeout)
 
 module.exports.patientMock = {
   email: `${nanoid()}@mail.com`,
+  password: 'User123',
   name: 'Petter Parker',
   cel: '+5254298632',
   zoomId: '910 8957 2648'

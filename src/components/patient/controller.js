@@ -4,6 +4,7 @@
  * **************************************
  */
 
+const bcrypt = require('bcrypt')
 const { patientDb } = require('./DAL')
 const { raiseError, httpErrors } = require('../../lib/errorManager')
 
@@ -24,11 +25,14 @@ class PatientController {
     }
   }
 
-  async login({ email }) {
+  async login({ email, password }) {
     try {
       const patient = await patientDb.read({ query: { email } })
-      if (patient) return patient
-      return raiseError('Patient not found', httpErrors.notFound)
+      if (patient) {
+        const correctPassword = await bcrypt.compare(password, patient.password)
+        if (correctPassword) return patient
+      }
+      return raiseError('Invalid credentials', httpErrors.unauthorized)
     } catch (error) {
       return raiseError()
     }

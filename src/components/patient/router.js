@@ -65,9 +65,9 @@ router.post(
   validationHandler(patientLoginSchema, 'body'),
   async (req, res, next) => {
     try {
-      const { email } = req.body
+      const { email, password } = req.body
 
-      const patient = await patientController.login({ email })
+      const patient = await patientController.login({ email, password })
       const token = jwt.signToken({
         email: patient.email,
         scope: scopes.PATIENT,

@@ -73,7 +73,7 @@ describe('Patients endpoints', () => {
     test('Should return the user if exists and set cookie', async (done) => {
       const response = await request
         .post(`${baseUrl}/login`)
-        .send({ email: patientMock.email })
+        .send({ email: patientMock.email, password: patientMock.password })
 
       const { body, status, headers } = response
 
@@ -84,14 +84,14 @@ describe('Patients endpoints', () => {
       done()
     })
 
-    test('Should return not found on unregister user', async (done) => {
+    test('Should return unauthorized error if unregister user', async (done) => {
       const response = await request
         .post(`${baseUrl}/login`)
-        .send({ email: 'invalid@invalidmail.com' })
+        .send({ email: 'invalid@invalidmail.com', password: 'Invalid123' })
 
       const { body, status } = response
 
-      expect(status).toEqual(404)
+      expect(status).toEqual(401)
       expect(body.error).toBeTruthy()
       done()
     })

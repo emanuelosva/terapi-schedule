@@ -18,7 +18,7 @@ Develop a REST API that allows to users know the available psychologists hours a
 - Scope validation (roles: patient & psy)
 - Docker based
 - Github Actions for CI
-- Automatic deploy after test on PaaS (Heroku)
+- Automatic deploy after tests on PaaS (Heroku)
 
 > psy - refers to psychologists
 
