@@ -10,7 +10,7 @@ const joi = require('joi')
 
 /**
  * @typedef Psy
- * @property {string} _id.required - The psy id - eg: GNK4ayGUc3vmoOQW3U1bv
+ * @property {string} _id.required - The psy id - eg: jzzdO3o56N-aU3s1bQUfd
  * @property {string} email.required - The psy email - eg: dr.strange@marvel.com
  * @property {string} password.required - The psy password - eg: Psy123
  * @property {string} firstName.required - psy first name - eg: Steven

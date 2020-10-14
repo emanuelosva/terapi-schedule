@@ -10,7 +10,7 @@ const joi = require('joi')
 
 /**
  * @typedef Patient
- * @property {string} _id.required - The patient id - eg: GNK4ayGUc3vmoOQW3U1bv
+ * @property {string} _id.required - The patient id - eg: w80cptU9R2VCT6eX2Dtey
  * @property {string} email.required - The patient email - eg: stan@marvel.com
  * @property {string} firstName.required - Patient first name - eg: Stan
  * @property {string} lastName.required - Patient last name - eg: Lee

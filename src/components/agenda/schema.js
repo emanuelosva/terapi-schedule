@@ -16,7 +16,7 @@ const joi = require('joi')
 /**
  * @typedef Day
  * @property {string} _id.required - The day id - eg: TZF8rxHU-cVnO8QW3U4ia
- * @property {string} psy.required - The psy id - eg: 3aCcGQSb5WTDmkofmd-UG
+ * @property {string} psy.required - The psy id - eg: jzzdO3o56N-aU3s1bQUfd
  * @property {string} dayOfWeek.required - The day selected - eg: Monday
  * @property {WorkingPlan.model} workingPlan.required - The day init/end hours
  * @property {Array<Break>} breaks - Hours without service
