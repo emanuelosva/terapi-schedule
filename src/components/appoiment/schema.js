@@ -12,7 +12,7 @@ const joi = require('joi')
  * @typedef Appoiment
  * @property {string} _id.required - The appoiment id - eg: RZa8hxHU-cVnm8Qj3U4iu
  * @property {string} psy.required - The psy id - eg: jzzdO3o56N-aU3s1bQUfd
- * @property {string} patient.required - The patient id - eg: w80cptU9R2VCT6eX2Dtey
+ * @property {string} patient.required - The patient id - eg: jzzdO3o56N-aU3s1bQUfd
  * @property {string} date.required - The appoimnet date - eg: 2020/12/20
  * @property {string} startTime.required - Initial hour - eg: 2020-10-19T10:00:00-05:00
  * @property {string} endTime.required - End hour - eg: 2020-10-19T10:50:00-05:00
@@ -45,7 +45,7 @@ const appoimentConsultSchema = joi.object({
 /**
  * @typedef AppoimentIn
  * @property {string} psy.required - The psy id - eg: jzzdO3o56N-aU3s1bQUfd
- * @property {string} patient.required - The patient id - eg: w80cptU9R2VCT6eX2Dtey
+ * @property {string} patient.required - The patient id - eg: jzzdO3o56N-aU3s1bQUfd
  * @property {string} startTime.required - Initial hour - eg: 2020-10-19T10:00:00-05:00
  * @property {string} endTime.required - End hour - eg: 2020-10-19T10:50:00-05:00
  * @property {number} duration.required - Duration in minutes - eg: 50
