@@ -15,7 +15,7 @@ const axios = require('axios').default
  * Class to perform appoiments bussiness logic.
  */
 class AppoimentController {
-  constructor() {}
+  constructor() { }
 
   async getHours({ psy, selectedDay, duration }) {
     try {
@@ -25,7 +25,10 @@ class AppoimentController {
       if (!agenda) return []
 
       const { workingPlan, breaks } = agenda
-      const appoiments = await appoimentDb.readMany({ psy, date: selectedDay })
+      const appoiments = await appoimentDb.readMany({
+        query: { psy, date: selectedDay },
+      })
+
       const hours = timeUtils.getAvailableHours({
         workingPlan,
         breaks,
@@ -63,9 +66,11 @@ class AppoimentController {
   async createAndRegister({ data }) {
     try {
       let host
-      config.app.dev
-        ? (host = `http://${config.app.host}:${config.app.port}`)
-        : (host = config.app.host)
+      if (config.app.dev) {
+        host = `http://${config.app.host}:${config.app.port}`
+      } else {
+        host = config.app.host
+      }
 
       const { data: _id } = await axios({
         url: `${host}/api/patients/signup`,
@@ -128,6 +133,7 @@ class AppoimentController {
         new Date()
       )
       if (timeToAppoiment < 1) {
+        // Only cancel if time is greater than one day.
         return raiseError('The appoiment is so close', httpErrors.conflict)
       }
 
