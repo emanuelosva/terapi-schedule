@@ -283,7 +283,7 @@ body: {
   "workingPlan": {
     "start": "str",
     "end": "str",
-  }
+  },
   "breaks": [
     {
       "start": "str",

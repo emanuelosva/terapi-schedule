@@ -114,7 +114,6 @@ describe('Appoiment endpoints', () => {
         .send({ ...appoimentMock, psy: psyId, patient: patientId })
 
       const { body, status } = response
-      console.log(body)
       expect(status).toEqual(201)
       expect(body.psy).toEqual(psyId)
       expect(body.patient).toEqual(patientId)
