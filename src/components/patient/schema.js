@@ -16,6 +16,7 @@ const joi = require('joi')
  * @property {string} lastName.required - Patient last name - eg: Lee
  * @property {string} cel.required - Patient cel phone number - eg: +5254298632
  * @property {string} zoomId - Patient Zoom ID - eg: 910 8957 2648
+ * @property {Array<Appoiment>} appoiments - Patient appoiments
  */
 
 /**

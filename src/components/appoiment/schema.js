@@ -14,8 +14,8 @@ const joi = require('joi')
  * @property {string} psy.required - The psy id - eg: 3aCcGQSb5WTDmkofmd-UG
  * @property {string} patient.required - The patient id - eg: XSN4URo3J3wZvojWVdrkQ
  * @property {string} date.required - The appoimnet date - eg: 2020/12/20
- * @property {string} startTime.required - Initial hour - eg: 2020-12-10T13:00:03-05:00
- * @property {string} endTime.required - End hour - eg: 2020-12-10T13:50:03-05:00
+ * @property {string} startTime.required - Initial hour - eg: 2020-12-10T10:00:00-05:00
+ * @property {string} endTime.required - End hour - eg: 2020-12-10T10:50:00-05:00
  * @property {number} duration.required - Duration in minutes - eg: 50
  */
 
@@ -46,8 +46,8 @@ const appoimentConsultSchema = joi.object({
  * @typedef AppoimentIn
  * @property {string} psy.required - The psy id - eg: 3aCcGQSb5WTDmkofmd-UG
  * @property {string} patient.required - The patient id - eg: XSN4URo3J3wZvojWVdrkQ
- * @property {string} startTime.required - Initial hour - eg: 2020-12-10T13:00:03-05:00
- * @property {string} endTime.required - End hour - eg: 2020-12-10T13:50:03-05:00
+ * @property {string} startTime.required - Initial hour - eg: 2020-12-10T10:00:00-05:00
+ * @property {string} endTime.required - End hour - eg: 2020-12-10T10:50:00-05:00
  * @property {number} duration.required - Duration in minutes - eg: 50
  */
 
@@ -62,8 +62,8 @@ const appoimentInSchema = joi.object({
 /**
  * @typedef AppoimentUpdate
  * @property {string} psy.required - The psy id - eg: 3aCcGQSb5WTDmkofmd-UG
- * @property {string} startTime.required - Initial hour - eg: 2020-12-10T13:00:03-05:00
- * @property {string} endTime.required - End hour - eg: 2020-12-10T13:50:03-05:00
+ * @property {string} startTime.required - Initial hour - eg: 2020-12-10T10:00:00-05:00
+ * @property {string} endTime.required - End hour - eg: 2020-12-10T10:50:00-05:00
  * @property {number} duration.required - Duration in minutes - eg: 50
  */
 
@@ -77,8 +77,8 @@ const appoimentUpdateSchema = joi.object({
 /**
  * @typedef AppoimentNewPatinetIn
  * @property {string} psy.required - The psy id - eg: 3aCcGQSb5WTDmkofmd-UG
- * @property {string} startTime.required - Initial hour - eg: 2020-12-10T13:00:03-05:00
- * @property {string} endTime.required - End hour - eg: 2020-12-10T13:50:03-05:00
+ * @property {string} startTime.required - Initial hour - eg: 2020-12-10T10:00:00-05:00
+ * @property {string} endTime.required - End hour - eg: 2020-12-10T10:50:00-05:00
  * @property {number} duration.required - Duration in minutes - eg: 50
  * @property {PatientIn.model} patient.required - The new patient info
  */
