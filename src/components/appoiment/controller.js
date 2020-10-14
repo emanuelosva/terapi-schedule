@@ -15,7 +15,7 @@ const axios = require('axios').default
  * Class to perform appoiments bussiness logic.
  */
 class AppoimentController {
-  constructor() { }
+  constructor() {}
 
   async getHours({ psy, selectedDay, duration }) {
     try {
