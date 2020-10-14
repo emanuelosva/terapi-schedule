@@ -33,7 +33,7 @@ const router = Router()
  * @param {string} psy.query.required - The psy id - eg: 3aCcGQSb5WTDmkofmd-UG
  * @param {string} duration.query.required - Appoiment duration - eg: 50
  * @param {string} selectedDay.query.required - Desired day - eg: 2020/12/20
- * @returns {Array<string>} 200 - Availbale hours - eg: [14:00, 15:00]
+ * @returns {Hours.model} 200 - Availbale hours - eg: [14:00, 15:00]
  * @returns {BadRequest.model} 400 - Invalid request data.
  */
 router.get(
@@ -116,6 +116,7 @@ router.post(
  * @param {AppoimentUpdate.model} appioment.body.required - The new data
  * @returns {Success.model} 200 - Appoiment info.
  * @returns {BadRequest.model} 400 - Invalid request data.
+ * @returns {Unauthorized.model} 401 - Invalid request data.
  * @returns {NotFound.model} 404 - Not found.
  * @returns {Conflict.model} 409 - Date not available.
  * @security COOKIE
@@ -130,7 +131,7 @@ router.put(
       const { id } = req.params
       const data = req.body
       const result = await appoimentController.update({ id, data })
-      res.status(201).json(result)
+      res.status(200).json(result)
     } catch (error) {
       next(error)
     }
@@ -157,7 +158,7 @@ router.delete(
     try {
       const { id } = req.params
       const result = await appoimentController.delete({ id })
-      res.status(201).json(result)
+      res.status(200).json(result)
     } catch (error) {
       next(error)
     }

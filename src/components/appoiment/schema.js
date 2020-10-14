@@ -20,6 +20,10 @@ const joi = require('joi')
  */
 
 /**
+ * @typedef Hours
+ * @property {Array<string>} hours.required - The available hours
+ */
+/**
  * @typedef AppoimentConsult
  * @property {string} selectedDay.required - The date desired - eg: 2020/12/20
  * @property {number} duration.required - Duration in minutes - eg: 50
@@ -57,12 +61,14 @@ const appoimentInSchema = joi.object({
 
 /**
  * @typedef AppoimentUpdate
+ * @property {string} psy.required - The psy id - eg: 3aCcGQSb5WTDmkofmd-UG
  * @property {string} startTime.required - Initial hour - eg: 2020-12-10T13:00:03-05:00
  * @property {string} endTime.required - End hour - eg: 2020-12-10T13:50:03-05:00
  * @property {number} duration.required - Duration in minutes - eg: 50
  */
 
 const appoimentUpdateSchema = joi.object({
+  psy: idType.required(),
   startTime: joi.date().required(),
   endTime: joi.date().required(),
   duration: joi.number().required().min(30).max(120),
