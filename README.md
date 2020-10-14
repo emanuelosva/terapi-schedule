@@ -40,10 +40,11 @@ The API is completely documented.
 git clone https://github.com/emanuelosva/terapi-schedule
 ```
 
-- Then build the docker image.
+- Build the docker image.
+
 First go to the .env.example file and rename as .env and fill the
 required config vars.
-The mongo DB_URL by default use: `mongodb://db:27017/terapischedule`
+The mongo DB_URL is by default for dev: `mongodb://db:27017/terapischedule`
 
 Run the following command to build the Docker image.
 
@@ -51,10 +52,22 @@ Run the following command to build the Docker image.
 npm run build:docker
 ```
 
-- Lauch the server and development db:
+- Lauch the server and the development MongoDB instance:
 
 ```bash
 npm run dev
+```
+
+- Perform tests in Docker container:
+
+```bash
+npm run test:dev
+```
+
+- Open html test report (comman available for ubuntu):
+
+```bash
+npm run test:dev
 ```
 
 ## Endpoints
@@ -215,7 +228,7 @@ body: {
 
 :scope: `patient`
 
-- params: id: ID
+- params: id: ID - appoiment id
 
 ```js
 body: {
@@ -226,11 +239,11 @@ body: {
 ```
 
 - DELETE /appoiments/{id}
-> Update appoiment.
+> Delete appoiment.
 
 :scope: `patient`
 
-- params: id: ID
+- params: id: ID - appoiment id
 
 ## DB Schemas
 
@@ -267,8 +280,10 @@ body: {
   "id": "ID",
   "psy": "ID-ref:psy[id]",
   "dayOfWeek": "str",
-  "start": "str",
-  "end": "str",
+  "workingPlan": {
+    "start": "str",
+    "end": "str",
+  }
   "breaks": [
     {
       "start": "str",
@@ -294,7 +309,7 @@ body: {
 
 ## About the project
 
-This project take part of [Terapify](https://www.terapify.com) Backend Challenge.
+This project takes part of [Terapify](https://www.terapify.com) Backend Challenge.
 The correct appoiments scheduling is crucial to ensure a great services to patients and psychologists. This application is my personal solution to cover this service.
 
 ## Author
