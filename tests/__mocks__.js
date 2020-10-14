@@ -28,20 +28,20 @@ module.exports.psyMock = {
 module.exports.agendaMock = {
   days: [
     {
-      "dayOfWeek": "Monday",
-      "workingPlan": {
-        "start": "10:00",
-        "end": "18:00"
+      'dayOfWeek': 'Monday',
+      'workingPlan': {
+        'start': '10:00',
+        'end': '18:00'
       },
-      "breaks": []
+      'breaks': []
     },
     {
-      "dayOfWeek": "Friday",
-      "workingPlan": {
-        "start": "12:00",
-        "end": "18:00"
+      'dayOfWeek': 'Friday',
+      'workingPlan': {
+        'start': '12:00',
+        'end': '18:00'
       },
-      "breaks": [
+      'breaks': [
         {
           start: '15:00',
           end: '16:00'
@@ -49,4 +49,27 @@ module.exports.agendaMock = {
       ]
     }
   ]
+}
+
+module.exports.queryConsult = {
+  selectedDay: '2020/10/26',
+  duration: 30,
+}
+
+module.exports.noAgendaDay = '2020/10/29'
+module.exports.noAgendaTime = '2020-10-26T23:00:03-05:00'
+
+module.exports.appoimentMock = {
+  psy: '',
+  patient: '',
+  startTime: '2020-10-26T10:00:00-05:00',
+  endTime: '2020-10-26T10:50:00-05:00',
+  duration: 50
+}
+
+module.exports.appoimentMockUpdate = {
+  psy: '',
+  startTime: '2020-10-26T11:00:00-05:00',
+  endTime: '2020-10-26T11:50:00-05:00',
+  duration: 50
 }
