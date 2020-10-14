@@ -1,19 +1,23 @@
 /**
- * ****************************
- * @fileoverview Agenda Router.
- * ****************************
+ * *******************************
+ * @fileoverview Appoiment Router.
+ * *******************************
  */
 
 const { Router } = require('express')
 const { validationHandler } = require('../../middleware')
-const { scopes, cookieAuthenticate } = require('../../lib/auth')
-const { agendaController } = require('./controller')
+const { appoimentController } = require('./controller')
 const {
-  dayInSchema,
-  agendaInSchema,
-  dayOfWeekSchema,
+  scopes,
+  cookieAuthenticate,
+  setResponseCookie,
+  jwt,
+} = require('../../lib/auth')
+const {
+  idSchema,
   appoimentConsultSchema,
   appoimentInSchema,
+  appoimentUpdateSchema,
   appoimentNewPatientInSchema,
 } = require('./schema')
 
@@ -23,116 +27,9 @@ const {
 const router = Router()
 
 /**
- * Create psy agenda
- * @route POST /agenda
- * @group Agenda - Operations about agenda
- * @param {AgendaIn.model} agenda.body.required - The weekly agenda
- * @returns {Success.model} 201 - Operation successful.
- * @returns {BadRequest.model} 400 - Invalid request data.
- * @returns {Unauthorized.model} 401 - Invalid credentials.
- * @returns {Forbidden.model} 403 - Forbidden.
- * @security COOKIE
- */
-router.post(
-  '/',
-  cookieAuthenticate({ scopes: [scopes.PSY] }),
-  validationHandler(agendaInSchema, 'body'),
-  async (req, res, next) => {
-    try {
-      const psy = req.user
-      const { days } = req.body
-      const result = await agendaController.create({ psy, days })
-      res.status(201).json(result)
-    } catch (error) {
-      next(error)
-    }
-  }
-)
-
-/**
- * Get psy agenda
- * @route GET /agenda
- * @group Agenda - Operations about agenda
- * @param {string} dayOfWeek.query - The specific day to retrieve
- * @returns {Agenda.model} 200 - Weekly working plan
- * @returns {Unauthorized.model} 401 - Invalid credentials
- * @returns {Forbidden.model} 403 - Forbidden.
- * @security COOKIE
- */
-router.get(
-  '/',
-  cookieAuthenticate({ scopes: [scopes.PSY] }),
-  validationHandler(dayOfWeekSchema, 'query'),
-  async (req, res, next) => {
-    try {
-      const psy = req.user
-      const { dayOfWeek } = req.query
-      const agenda = await agendaController.read({ psy, dayOfWeek })
-      res.status(200).json(agenda)
-    } catch (error) {
-      next(error)
-    }
-  }
-)
-
-/**
- * Upsert psy agenda
- * @route PUT /agenda
- * @group Agenda - Operations about agenda
- * @param {DayIn.model} day.body.required - The day working plan
- * @returns {Success.model} 200 - Day updated.
- * @returns {BadRequest.model} 400 - Invalid request data.
- * @returns {Unauthorized.model} 401 - Invalid credentials.
- * @returns {Forbidden.model} 403 - Forbidden.
- * @security COOKIE
- */
-router.put(
-  '/',
-  cookieAuthenticate({ scopes: [scopes.PSY] }),
-  validationHandler(dayInSchema, 'body'),
-  async (req, res, next) => {
-    try {
-      const psy = req.user
-      const dayData = req.body
-      const result = await agendaController.update({ psy, dayData })
-      res.status(200).json(result)
-    } catch (error) {
-      next(error)
-    }
-  }
-)
-
-/**
- * Upsert psy agenda
- * @route DELETE /agenda/{dayOfWeek}
- * @group Agenda - Operations about agenda
- * @param {string} dayOfWeek.path - The day to delete
- * @returns {Success.model} 200 - Day reseted.
- * @returns {BadRequest.model} 400 - Invalid request data.
- * @returns {Unauthorized.model} 401 - Invalid credentials.
- * @returns {Forbidden.model} 403 - Forbidden.
- * @security COOKIE
- */
-router.delete(
-  '/:dayOfWeek',
-  cookieAuthenticate({ scopes: [scopes.PSY] }),
-  validationHandler(dayOfWeekSchema, 'params'),
-  async (req, res, next) => {
-    try {
-      const psy = req.user
-      const { dayOfWeek } = req.params
-      const result = await agendaController.delete({ psy, dayOfWeek })
-      res.status(200).json(result)
-    } catch (error) {
-      next(error)
-    }
-  }
-)
-
-/**
  * Get available appoiment hours
- * @route GET /agenda/appoiments
- * @group Agenda - Operations about agenda
+ * @route GET /appoiments/hours
+ * @group Appoiments - Operations about appioments
  * @param {string} psy.query.required - The psy id - eg: 3aCcGQSb5WTDmkofmd-UG
  * @param {string} duration.query.required - Appoiment duration - eg: 50
  * @param {string} selectedDay.query.required - Desired day - eg: 2020/12/20
@@ -140,12 +37,12 @@ router.delete(
  * @returns {BadRequest.model} 400 - Invalid request data.
  */
 router.get(
-  '/appoiments',
+  '/hours',
   validationHandler(appoimentConsultSchema, 'query'),
   async (req, res, next) => {
     try {
       const { psy, duration, selectedDay } = req.query
-      const hours = await agendaController.getHours({
+      const hours = await appoimentController.getHours({
         psy,
         duration,
         selectedDay,
@@ -159,20 +56,22 @@ router.get(
 
 /**
  * Create new appoiment
- * @route POST /agenda/appoiments
- * @group Agenda - Operations about agenda
+ * @route POST /appoiments
+ * @group Appoiments - Operations about appoiments
  * @param {AppoimentIn.model} appoiment.body.required - The appoiment data
  * @returns {Appoiment.model} 201 - Appoiment info.
  * @returns {BadRequest.model} 400 - Invalid request data.
  * @returns {Conflict.model} 409 - Date not available.
+ * @security COOKIE
  */
 router.post(
-  '/appoiments',
+  '/',
+  cookieAuthenticate({ scopes: [scopes.PATIENT] }),
   validationHandler(appoimentInSchema, 'body'),
   async (req, res, next) => {
     try {
-      const appoimentData = req.body
-      const appoiment = await agendaController.addAppoimnet({ appoimentData })
+      const data = req.body
+      const appoiment = await appoimentController.create({ data })
       res.status(201).json(appoiment)
     } catch (error) {
       next(error)
@@ -182,20 +81,83 @@ router.post(
 
 /**
  * Create new appoiment and new user
- * @route POST /agenda/appoiments/new
- * @group Agenda - Operations about agenda
+ * @route POST /appoiments/new
+ * @group Appoiments - Operations about appoiments
  * @param {AppoimentNewPatinetIn.model} appoiment.body.required - The appoiment data
- * @returns {Appoiment.model} 200 - Appoiment info.
+ * @returns {Appoiment.model} 201 - Appoiment info.
  * @returns {BadRequest.model} 400 - Invalid request data.
  * @returns {Conflict.model} 409 - Date not available.
  */
 router.post(
-  '/appoiments/new',
+  '/new',
   validationHandler(appoimentNewPatientInSchema, 'body'),
   async (req, res, next) => {
     try {
-      const appoimentData = req.body
-      res.status(201).json(appoimentData)
+      const data = req.body
+      const appoiment = await appoimentController.createAndRegister({ data })
+      const token = jwt.signToken({
+        email: data.patinent.email,
+        scope: scopes.PATIENT,
+      })
+
+      setResponseCookie({ res, token })
+      res.status(201).json(appoiment)
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
+/**
+ * Update appoiment
+ * @route PUT /appoiments/{id}
+ * @group Appoiments - Operations about appoiments
+ * @param {string} id.path.required - The appoiment data
+ * @param {AppoimentUpdate.model} appioment.body.required - The new data
+ * @returns {Success.model} 200 - Appoiment info.
+ * @returns {BadRequest.model} 400 - Invalid request data.
+ * @returns {NotFound.model} 404 - Not found.
+ * @returns {Conflict.model} 409 - Date not available.
+ * @security COOKIE
+ */
+router.put(
+  '/:id',
+  cookieAuthenticate({ scopes: [scopes.PATIENT] }),
+  validationHandler(idSchema, 'params'),
+  validationHandler(appoimentUpdateSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params
+      const data = req.body
+      const result = await appoimentController.update({ id, data })
+      res.status(201).json(result)
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
+/**
+ * Delete appoiment
+ * @route DELETE /appoiments/{id}
+ * @group Appoiments - Operations about appoiments
+ * @param {string} id.path.required - The appoiment data
+ * @returns {Success.model} 200 - Appoiment info.
+ * @returns {BadRequest.model} 400 - Invalid request data.
+ * @returns {Unauthorized.model} 401 - Invalid request data.
+ * @returns {NotFound.model} 404 - Not found.
+ * @returns {Conflict.model} 409 - Time to cancel expired.
+ * @security COOKIE
+ */
+router.delete(
+  '/:id',
+  cookieAuthenticate({ scopes: [scopes.PATIENT] }),
+  validationHandler(idSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params
+      const result = await appoimentController.delete({ id })
+      res.status(201).json(result)
     } catch (error) {
       next(error)
     }
@@ -203,5 +165,5 @@ router.post(
 )
 
 module.exports = {
-  agendaRouter: router,
+  appoimenRouter: router,
 }

@@ -4,14 +4,8 @@
  * ***************************************
  */
 
-const { AppoimentModel, DayModel } = require('./model')
+const { AppoimentModel } = require('./model')
 const { CRUD } = require('../../lib/db')
-
-class DayDb extends CRUD {
-  constructor() {
-    super(DayModel)
-  }
-}
 
 class AppoimentDb extends CRUD {
   constructor() {
@@ -20,8 +14,5 @@ class AppoimentDb extends CRUD {
 }
 
 module.exports = {
-  agendaDb: {
-    day: new DayDb(),
-    appoiment: new AppoimentDb(),
-  },
+  appoimentDb: new AppoimentDb(),
 }

@@ -1,7 +1,7 @@
 /**
- * *******************************
- * @fileoverview Agenda DB models.
- * *******************************
+ * **********************************
+ * @fileoverview Appoiment DB models.
+ * **********************************
  */
 
 const mongoose = require('mongoose')
@@ -15,33 +15,6 @@ const stringRequired = {
   required: true,
 }
 
-const dateRequired = {
-  type: Date,
-  required: true,
-}
-
-/**
- * Day DB model
- */
-const DaySchema = mongoose.Schema({
-  _id: {
-    type: String,
-    default: () => nanoid(),
-  },
-  psy: { ...stringRequired, ref: 'Psy' },
-  dayOfWeek: stringRequired,
-  workingPlan: {
-    start: stringRequired,
-    end: stringRequired,
-  },
-  breaks: [
-    {
-      start: String,
-      end: String,
-    },
-  ],
-})
-
 /**
  * Appoiment DB model
  */
@@ -52,11 +25,10 @@ const AppoimentSchema = new mongoose.Schema({
   },
   psy: { ...stringRequired, ref: 'Psy' },
   patient: { ...stringRequired, ref: 'Patient' },
-  date: dateRequired,
-  startTime: dateRequired,
-  endTime: dateRequired,
+  date: { type: Date, required: true },
+  startTime: stringRequired,
+  endTime: stringRequired,
   duration: { type: Number, required: true },
-  hoursTaked: [String],
 })
 
 /**
@@ -70,8 +42,6 @@ function autoPopulate(next) {
 AppoimentSchema.pre('find', autoPopulate)
 AppoimentSchema.pre('findOne', autoPopulate)
 
-const DayModel = mongoose.model('Day', DaySchema, 'days')
-
 const AppoimentModel = mongoose.model(
   'Appoiment',
   AppoimentSchema,
@@ -79,6 +49,5 @@ const AppoimentModel = mongoose.model(
 )
 
 module.exports = {
-  DayModel,
   AppoimentModel,
 }

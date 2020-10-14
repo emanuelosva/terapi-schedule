@@ -165,8 +165,9 @@ body:{
 
 :scope: `psy`
 
+#### Operations about appoiments
 
-- GET /agenda/appoiments
+- GET /appoiments/hours
 > Retrieve the available hours
 
 ```js
@@ -177,7 +178,7 @@ query: {
 }
 ```
 
-- POST /agenda/appoiments
+- POST /appoiments
 > Create a new appoiment.
 
 :scope: `patient`
@@ -192,7 +193,7 @@ body: {
 }
 ```
 
-- POST /agenda/appoiment/new
+- POST /appoiment/new
 > Create a new appoiment and register the patient.
 
 ```js
@@ -208,6 +209,28 @@ body: {
   }
 }
 ```
+
+- PUT /appoiments/{id}
+> Update appoiment.
+
+:scope: `patient`
+
+- params: id: ID
+
+```js
+body: {
+  start_time: "2020-07-10T13:00:03-05:00",
+  end_time: "2020-07-10T13:50:03-05:00",
+  duration: 50,
+}
+```
+
+- DELETE /appoiments/{id}
+> Update appoiment.
+
+:scope: `patient`
+
+- params: id: ID
 
 ## DB Schemas
 
