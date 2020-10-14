@@ -54,8 +54,8 @@ class CRUD {
         .match(query)
         .lookup({
           from: 'appoiments',
-          localField: scope, // patient || psy
-          foreignField: '_id',
+          localField: '_id',
+          foreignField: scope, // patient || psy
           as: 'appoiments',
         })
         .next()
