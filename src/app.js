@@ -6,6 +6,8 @@
 
 const express = require('express')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
+const helmet = require('helmet')
 const { apiRouter } = require('./components')
 const { connectDb } = require('./lib/db')
 const { expressLogger } = require('./lib/logger')
@@ -34,6 +36,10 @@ swaggerServer(app)
 
 // Logs the request/response info
 expressLogger(app)
+
+// Security
+app.use(cors())
+app.use(helmet())
 
 // Requests Pasrsers
 app.use(express.json())
