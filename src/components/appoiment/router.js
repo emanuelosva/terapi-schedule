@@ -30,9 +30,9 @@ const router = Router()
  * Get available appoiment hours
  * @route GET /appoiments/hours
  * @group Appoiments - Operations about appioments
- * @param {string} psy.query.required - The psy id - eg: 3aCcGQSb5WTDmkofmd-UG
+ * @param {string} psy.query.required - The psy id - eg: jzzdO3o56N-aU3s1bQUfd
  * @param {string} duration.query.required - Appoiment duration - eg: 50
- * @param {string} selectedDay.query.required - Desired day - eg: 2020/12/20
+ * @param {string} selectedDay.query.required - Desired day - eg: 2020/10/19
  * @returns {Hours.model} 200 - Availbale hours - eg: [14:00, 15:00]
  * @returns {BadRequest.model} 400 - Invalid request data.
  */
