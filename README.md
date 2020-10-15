@@ -17,8 +17,11 @@ Develop a REST API that allows to users know the available psychologists hours a
 - SwaggerDocs (swaggger-generator)
 - Scope validation (roles: patient & psy)
 - Docker based
-- Github Actions for CI
+- Github Actions for CICD
 - Automatic deploy after tests on PaaS (Heroku)
+- PM2 as runtime manager in production
+- Git hooks trhough husky to format the code before commits
+- Standard and prettier as code formats
 
 > psy - refers to psychologists
 
@@ -31,6 +34,26 @@ The API is completely documented.
 
 - Also you can visit the interactive docs of deployed version in:
   - https://terapi-schedule.herokuapp.com/api-docs
+
+## Architecture
+
+There are two main folders:
+- **tests** - Contain files with e2e testing of all endpoints of each entitie.
+- **src** - Contain the main source code of application.
+
+The source code is divided in:
+
+- **bin**: Contain the entrypoint script to lauch the server
+- **config**: Contain all app settings and secret vars
+- **lib**: Contain all common functionalities(swagger server, logger, error manager)
+  - ***auth***: Authorization & authentication tools
+  - ***db***: Db connection and general CRUD class
+- **middleware**: Contain all used middlewares (request validation, not found, error)
+- **components**: Contain all API entities:
+  - ***patients***: Operations about patients
+  - ***psy***: Operations about psychologists
+  - ***agenda***: Operationas about agenda (Is used by psychologists)
+  - ***appoiment***: Operations about appoiments (Is used by patients)
 
 ## Usage
 
